@@ -1,3 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100vh;
+  width: 100vw;
+}
+body,
+#root,
 .App {
-  text-align: center;
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.App {
+  padding: 1rem;
+}
+
+.App__Shelf {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  max-width: 1000px;
+  max-height: 1000px;
+  margin: 0 auto;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+.App__Item {
+  border: 2px solid black;
+}
+
+.App__Item.--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 300ms ease;
+}
+.App__Item.--empty:hover {
+  cursor: pointer;
+}
+.App__Item.--empty:hover,
+.App__Item.--empty:focus {
+  box-shadow: 2px 2px grey;
+}
+
+.App__Item.--empty::after {
+  content: "Click to add";
+  display: block;
 }
