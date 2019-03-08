@@ -2,22 +2,23 @@ import React, { useState } from "react";
 import "./App.css";
 import { setFormData, targVal, updateElement, capitalize } from "./utils";
 
-/*
- * TODO:
- * Add pagination
- */
+const PER_PAGE = 25;
 
 const App = () => {
   // model state
-  const [items, setItems] = useState([...Array(25)]);
-  const updateItem = updateElement(items);
+  const [totalItems, setItems] = useState([...Array(PER_PAGE)]);
+  const updateItem = updateElement(totalItems);
 
   // ui state
+  const [page, setPage] = useState(0);
+  const items = totalItems.slice(PER_PAGE * page, PER_PAGE * page + PER_PAGE);
+  const pages = totalItems.length / PER_PAGE;
   const [showAddItem, setShowAddItem] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [showEditOptions, setShowEditOptions] = useState(false);
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
-  const itemIsSelected = Boolean(items[selectedIndex]);
+  const itemIsSelected = Boolean(totalItems[selectedIndex]);
+  const [error, setError] = useState("");
 
   // form state
   const [brand, setBrand] = useState("");
@@ -36,12 +37,23 @@ const App = () => {
     [setBrand, setStyle, setSize, setUpcId].map(f => f(""));
   };
 
+  const flashError = err => {
+    setError(err);
+    setTimeout(() => {
+      setError("");
+    }, 3000);
+  };
+
   const addItem = e => {
     e.preventDefault();
-    setItems(updateItem(selectedIndex, { brand, style, size, upcId }));
-    resetForm();
-    setShowAddItem(false);
-    setShowEditOptions(false);
+    if (!totalItems.find(({ upcId: existing } = {}) => existing === upcId)) {
+      setItems(updateItem(selectedIndex, { brand, style, size, upcId }));
+      resetForm();
+      setShowAddItem(false);
+      setShowEditOptions(false);
+    } else {
+      flashError("UPC ID already taken");
+    }
   };
 
   const handleAddClick = slotIndex => () => {
@@ -138,9 +150,58 @@ const App = () => {
     );
   };
 
+  const handlePrevPageClick = () => {
+    if (page > 0) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNextPageClick = () => {
+    if (page < pages) {
+      setPage(page + 1);
+    }
+  };
+
+  const addPage = () => {
+    setItems(totalItems.concat([...Array(PER_PAGE)]));
+  };
+
   return (
     <div className="App">
-      <h1>The Shelf</h1>
+      {Boolean(error) && (
+        <div className="Error">
+          <span>{error}</span>
+        </div>
+      )}
+      <div className="App__left">
+        <h1>The Shelf</h1>
+        <div className="App__Pagination">
+          <span>
+            Page {page + 1} of {totalItems.length / PER_PAGE}
+          </span>
+          <button
+            className="App__Pagination__Left"
+            disabled={page < 1}
+            onClick={handlePrevPageClick}
+          >
+            <i className="material-icons">skip_previous</i>
+          </button>
+          <button
+            className="App__Pagination__Add"
+            disabled={!totalItems.every(Boolean)}
+            onClick={addPage}
+          >
+            <i className="material-icons">add</i>
+          </button>
+          <button
+            className="App__Pagination__Right"
+            disabled={page + 1 === pages}
+            onClick={handleNextPageClick}
+          >
+            <i className="material-icons">skip_next</i>
+          </button>
+        </div>
+      </div>
       <div className="App__Shelf">{items.map(renderItem)}</div>
 
       {showAddItem && (
