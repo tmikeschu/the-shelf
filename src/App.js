@@ -5,6 +5,9 @@ const App = () => {
   const [items, setItems] = useState([...Array(25)]);
   const [showAddItem, setShowAddItem] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [showEditOptions, setShowEditOptions] = useState(false);
+  const [showDeleteWarning, setShowDeleteWarning] = useState(false);
+  const itemIsSelected = Boolean(items[selectedIndex]);
 
   // form data
   const [brand, setBrand] = useState("");
@@ -35,6 +38,7 @@ const App = () => {
     setItems(newItems);
     [setBrand, setStyle, setSize, setUpcId].map(f => f(""));
     setShowAddItem(false);
+    setShowEditOptions(false);
   };
 
   const targVal = cb => ({ target: { value } }) => cb(value);
@@ -44,21 +48,56 @@ const App = () => {
     setShowAddItem(!showAddItem);
   };
 
+  const handleEditClick = slotIndex => () => {
+    setShowEditOptions(true);
+    setSelectedIndex(slotIndex);
+  };
+
+  const handleEdit = i => () => {
+    setSelectedIndex(i);
+    Object.entries(shoeProps).forEach(([prop, { setter }]) => {
+      setter(items[i][prop]);
+    });
+    setShowAddItem(!showAddItem);
+  };
+
+  const handleDelete = i => () => {
+    setSelectedIndex(i);
+    setShowDeleteWarning(true);
+    const it = window.confirm("Are you sure?");
+    if (it) {
+      setItems([...items.slice(0, i), undefined, ...items.slice(i + 1)]);
+    }
+    setShowDeleteWarning(false);
+  };
+
   return (
     <div className="App">
       <h1>The Shelf</h1>
       <div className="App__Shelf">
         {items.map((item, i) =>
           Boolean(item) ? (
-            <ul className="App__Item" key={item.upcId}>
-              {Object.keys(shoeProps).map(prop => (
-                <li className={`--${prop}`} key={prop}>
-                  {item[prop]}
-                </li>
-              ))}
+            <ul
+              className="App__Item"
+              key={item.upcId}
+              onClick={handleEditClick(i)}
+              role="button"
+            >
+              {showEditOptions && selectedIndex === i ? (
+                <>
+                  <li onClick={handleEdit(i)}>edit</li>
+                  <li onClick={handleDelete(i)}>delete</li>
+                </>
+              ) : (
+                Object.keys(shoeProps).map(prop => (
+                  <li className={`--${prop}`} key={prop}>
+                    {item[prop]}
+                  </li>
+                ))
+              )}
             </ul>
           ) : (
-            <div
+            <ul
               key={i}
               className="App__Item --empty"
               role="button"
@@ -78,18 +117,27 @@ const App = () => {
             onSubmit={addItem}
             onClick={e => e.stopPropagation()}
           >
-            {Object.entries(shoeProps).map(([prop, { val, setter }]) => (
-              <input
-                key={prop}
-                type="text"
-                placeholder={prop}
-                value={val}
-                onChange={targVal(setter)}
-              />
-            ))}
+            {Object.entries(shoeProps).map(([prop, { val, setter }]) => {
+              return (
+                <input
+                  key={prop}
+                  type="text"
+                  placeholder={prop}
+                  value={val}
+                  onChange={targVal(setter)}
+                />
+              );
+            })}
 
-            <button type="submit">Add Shoe</button>
+            <button type="submit">
+              {itemIsSelected ? "Update" : "Add"} Shoe
+            </button>
           </form>
+        </div>
+      )}
+      {showDeleteWarning && (
+        <div className="Modal" onClick={() => setShowDeleteWarning(false)}>
+          Are you sure?
         </div>
       )}
     </div>
