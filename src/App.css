@@ -10,6 +10,10 @@
   display: flex;
 }
 
+.App h1 {
+  margin-bottom: 2rem;
+}
+
 .App__Shelf {
   display: grid;
   width: 100%;
@@ -146,4 +150,22 @@
   color: white;
   border-radius: 2px;
   padding: 1rem;
+}
+
+.App__Pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.App__Pagination > span {
+  width: 100%;
+}
+
+.App__Pagination > button {
+  width: 30%;
+}
+
+.App__left {
+  width: 15rem;
 }

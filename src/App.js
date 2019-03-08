@@ -3,18 +3,21 @@ import "./App.css";
 import { setFormData, targVal, updateElement, capitalize } from "./utils";
 
 const PER_PAGE = 25;
+const EMPTY_PAGE = [...Array(PER_PAGE)];
 
 const App = () => {
   // model state
-  const [totalItems, setItems] = useState([...Array(PER_PAGE)]);
+  const [totalItems, setItems] = useState(EMPTY_PAGE);
   const updateItem = updateElement(totalItems);
 
   // ui state
   const [page, setPage] = useState(0);
-  const items = totalItems.slice(PER_PAGE * page, PER_PAGE * page + PER_PAGE);
+  const pageOffset = PER_PAGE * page;
+  const items = totalItems.slice(pageOffset, pageOffset + PER_PAGE);
   const pages = totalItems.length / PER_PAGE;
   const [showAddItem, setShowAddItem] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [baseIndex, setSelectedIndex] = useState(-1);
+  const selectedIndex = baseIndex + pageOffset;
   const [showEditOptions, setShowEditOptions] = useState(false);
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
   const itemIsSelected = Boolean(totalItems[selectedIndex]);
@@ -44,10 +47,13 @@ const App = () => {
     }, 3000);
   };
 
+  // event handlers
+
   const addItem = e => {
     e.preventDefault();
     if (!totalItems.find(({ upcId: existing } = {}) => existing === upcId)) {
       setItems(updateItem(selectedIndex, { brand, style, size, upcId }));
+      setSelectedIndex(-1);
       resetForm();
       setShowAddItem(false);
       setShowEditOptions(false);
@@ -82,20 +88,25 @@ const App = () => {
   const handleConfirmDelete = () => {
     setItems(updateItem(selectedIndex, undefined));
     setShowDeleteWarning(false);
+    setSelectedIndex(-1);
   };
 
   const handleCancelDelete = () => {
     setSelectedIndex(-1);
     setShowDeleteWarning(false);
+    setSelectedIndex(-1);
   };
 
   const cancelEdit = e => {
     e.stopPropagation();
     setShowEditOptions(false);
+    setSelectedIndex(-1);
   };
 
+  // render helpers
+
   const renderItem = (item, i) => {
-    if (Boolean(item) && showEditOptions && selectedIndex === i) {
+    if (Boolean(item) && showEditOptions && selectedIndex === i + pageOffset) {
       return (
         <ul
           className="App__Item --editOptions"
@@ -163,7 +174,8 @@ const App = () => {
   };
 
   const addPage = () => {
-    setItems(totalItems.concat([...Array(PER_PAGE)]));
+    setItems(totalItems.concat(EMPTY_PAGE));
+    setPage(page + 1);
   };
 
   return (
@@ -176,9 +188,6 @@ const App = () => {
       <div className="App__left">
         <h1>The Shelf</h1>
         <div className="App__Pagination">
-          <span>
-            Page {page + 1} of {totalItems.length / PER_PAGE}
-          </span>
           <button
             className="App__Pagination__Left"
             disabled={page < 1}
@@ -186,11 +195,7 @@ const App = () => {
           >
             <i className="material-icons">skip_previous</i>
           </button>
-          <button
-            className="App__Pagination__Add"
-            disabled={!totalItems.every(Boolean)}
-            onClick={addPage}
-          >
+          <button className="App__Pagination__Add" onClick={addPage}>
             <i className="material-icons">add</i>
           </button>
           <button
@@ -200,6 +205,9 @@ const App = () => {
           >
             <i className="material-icons">skip_next</i>
           </button>
+          <span>
+            Page {page + 1} of {pages}
+          </span>
         </div>
       </div>
       <div className="App__Shelf">{items.map(renderItem)}</div>
@@ -233,7 +241,6 @@ const App = () => {
                   );
                 }
               )}
-
               <button
                 type="submit"
                 disabled={![brand, style, size, upcId].every(Boolean)}
