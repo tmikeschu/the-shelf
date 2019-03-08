@@ -1,6 +1,6 @@
 # The Shelf
 
-This is a simple interface for managing product inventory, like shoes.
+This is a simple interface for managing product inventory, like shoes. Check it out [here](https://tmikeschu.com/the-shelf).
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
