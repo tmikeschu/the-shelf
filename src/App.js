@@ -15,6 +15,7 @@ const updateElement = xs => index => fn => [
 ];
 
 const App = () => {
+  // UI state
   const [items, setItems] = useState([...Array(25)]);
   const [showAddItem, setShowAddItem] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -22,7 +23,7 @@ const App = () => {
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
   const itemIsSelected = Boolean(items[selectedIndex]);
 
-  // form data
+  // form state
   const [brand, setBrand] = useState("");
   const [style, setStyle] = useState("");
   const [size, setSize] = useState("");
