@@ -1,22 +1,18 @@
 import React, { useState } from "react";
 import "./App.css";
+import { setFormData, targVal, updateElement, capitalize } from "./utils";
 
 /*
  * TODO:
  * Add pagination
  */
 
-const capitalize = s => s[0].toUpperCase() + s.slice(1).toLowerCase();
-
-const updateElement = xs => index => fn => [
-  ...xs.slice(0, index),
-  fn(xs[index]),
-  ...xs.slice(index + 1)
-];
-
 const App = () => {
-  // UI state
+  // model state
   const [items, setItems] = useState([...Array(25)]);
+  const updateItem = updateElement(items);
+
+  // ui state
   const [showAddItem, setShowAddItem] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [showEditOptions, setShowEditOptions] = useState(false);
@@ -36,22 +32,17 @@ const App = () => {
     upcId: { val: upcId, setter: setUpcId, label: "UPC ID" }
   };
 
+  const resetForm = () => {
+    [setBrand, setStyle, setSize, setUpcId].map(f => f(""));
+  };
+
   const addItem = e => {
     e.preventDefault();
-    const item = {
-      brand,
-      style,
-      size,
-      upcId
-    };
-    const newItems = updateElement(items)(selectedIndex)(() => item);
-    setItems(newItems);
-    [setBrand, setStyle, setSize, setUpcId].map(f => f(""));
+    setItems(updateItem(selectedIndex, { brand, style, size, upcId }));
+    resetForm();
     setShowAddItem(false);
     setShowEditOptions(false);
   };
-
-  const targVal = cb => ({ target: { value } }) => cb(value);
 
   const handleAddClick = slotIndex => () => {
     setSelectedIndex(slotIndex);
@@ -66,9 +57,7 @@ const App = () => {
   const handleEdit = i => e => {
     e.stopPropagation();
     setSelectedIndex(i);
-    Object.entries(itemProps).forEach(([prop, { setter }]) => {
-      setter(items[i][prop]);
-    });
+    setFormData(itemProps, items[i]);
     setShowAddItem(!showAddItem);
   };
 
@@ -79,7 +68,7 @@ const App = () => {
   };
 
   const handleConfirmDelete = () => {
-    setItems(updateElement(items)(selectedIndex)(() => undefined));
+    setItems(updateItem(selectedIndex, undefined));
     setShowDeleteWarning(false);
   };
 
