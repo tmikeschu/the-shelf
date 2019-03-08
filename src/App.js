@@ -82,56 +82,66 @@ const App = () => {
     setShowEditOptions(false);
   };
 
+  const renderItem = (item, i) => {
+    if (Boolean(item) && showEditOptions && selectedIndex === i) {
+      return (
+        <ul
+          className="App__Item --editOptions"
+          key={item.upcId}
+          onClick={handleEditClick(i)}
+          role="button"
+        >
+          <li onClick={handleEdit(i)}>
+            <i className="material-icons">edit</i>
+          </li>
+          <li onClick={handleDelete(i)}>
+            <i className="material-icons" style={{ color: "red" }}>
+              delete
+            </i>
+          </li>
+          <li onClick={cancelEdit}>
+            <i className="material-icons">close</i>
+          </li>
+        </ul>
+      );
+    }
+    if (Boolean(item)) {
+      return (
+        <ul
+          className="App__Item"
+          key={item.upcId}
+          onClick={handleEditClick(i)}
+          role="button"
+        >
+          {Object.entries(itemProps).map(([prop, { label }]) => (
+            <li className={`--${prop}`} key={prop}>
+              <p>
+                {label || capitalize(prop)}: {item[prop]}
+              </p>
+            </li>
+          ))}
+        </ul>
+      );
+    }
+
+    return (
+      <ul
+        key={i}
+        className="App__Item --empty"
+        role="button"
+        onClick={handleAddClick(i)}
+      >
+        <li>
+          <i className="material-icons">add</i>
+        </li>
+      </ul>
+    );
+  };
+
   return (
     <div className="App">
       <h1>The Shelf</h1>
-      <div className="App__Shelf">
-        {items.map((item, i) =>
-          Boolean(item) ? (
-            <ul
-              className={`App__Item ${
-                showEditOptions && selectedIndex === i ? "--editOptions" : ""
-              }`}
-              key={item.upcId}
-              onClick={handleEditClick(i)}
-              role="button"
-            >
-              {showEditOptions && selectedIndex === i ? (
-                <>
-                  <li onClick={handleEdit(i)}>
-                    <i className="material-icons">edit</i>
-                  </li>
-                  <li onClick={handleDelete(i)}>
-                    <i className="material-icons" style={{ color: "red" }}>
-                      delete
-                    </i>
-                  </li>
-                  <li onClick={cancelEdit}>
-                    <i className="material-icons">close</i>
-                  </li>
-                </>
-              ) : (
-                Object.entries(itemProps).map(([prop, { label }]) => (
-                  <li className={`--${prop}`} key={prop}>
-                    <p>
-                      {label || capitalize(prop)}: {item[prop]}
-                    </p>
-                  </li>
-                ))
-              )}
-            </ul>
-          ) : (
-            <ul
-              key={i}
-              className="App__Item --empty"
-              role="button"
-              onClick={handleAddClick(i)}
-            >
-              <i className="material-icons">add</i>
-            </ul>
-          )
-        )}
-      </div>
+      <div className="App__Shelf">{items.map(renderItem)}</div>
 
       {showAddItem && (
         <div className="Modal" onClick={() => setShowAddItem(false)}>
