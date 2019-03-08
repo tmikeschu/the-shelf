@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import "./App.css";
 
+/*
+ * TODO:
+ * Refactor repetitive array update code
+ * Add pagination
+ * Clean up styling
+ * Use custom delete confirmation
+ */
+
 const App = () => {
   const [items, setItems] = useState([...Array(25)]);
   const [showAddItem, setShowAddItem] = useState(false);
