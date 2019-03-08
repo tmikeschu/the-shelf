@@ -100,7 +100,39 @@ const App = () => {
   const cancelEdit = e => {
     e.stopPropagation();
     setShowEditOptions(false);
+    resetForm();
     setSelectedIndex(-1);
+  };
+
+  const handlePrevPageClick = () => {
+    if (page > 0) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNextPageClick = () => {
+    if (page < pages) {
+      setPage(page + 1);
+    }
+  };
+
+  const addPage = () => {
+    setItems(totalItems.concat(EMPTY_PAGE));
+    setPage(page + 1);
+  };
+
+  const handleBackdropClick = ({ target, currentTarget: listener }) => {
+    if (listener === target) {
+      closeForm();
+    }
+  };
+
+  const closeForm = () => {
+    if (itemIsSelected) {
+      setSelectedIndex(-1);
+      resetForm();
+    }
+    setShowAddItem(false);
   };
 
   // render helpers
@@ -161,23 +193,6 @@ const App = () => {
     );
   };
 
-  const handlePrevPageClick = () => {
-    if (page > 0) {
-      setPage(page - 1);
-    }
-  };
-
-  const handleNextPageClick = () => {
-    if (page < pages) {
-      setPage(page + 1);
-    }
-  };
-
-  const addPage = () => {
-    setItems(totalItems.concat(EMPTY_PAGE));
-    setPage(page + 1);
-  };
-
   return (
     <div className="App">
       {Boolean(error) && (
@@ -213,14 +228,13 @@ const App = () => {
       <div className="App__Shelf">{items.map(renderItem)}</div>
 
       {showAddItem && (
-        <div className="Modal" onClick={() => setShowAddItem(false)}>
+        <div className="Modal" onClick={handleBackdropClick}>
           <div className="Modal__inner">
-            <div
-              className="Modal__Header"
-              onClick={() => setShowAddItem(false)}
-            >
+            <div className="Modal__Header">
               <h2>Shoe Information</h2>
-              <i className="material-icons Modal__Close">close</i>
+              <i className="material-icons Modal__Close" onClick={closeForm}>
+                close
+              </i>
             </div>
             <form
               className="App__AddItem"

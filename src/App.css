@@ -40,6 +40,12 @@
   align-items: center;
   justify-content: space-around;
 }
+.App__Item.--editOptions:hover {
+  cursor: inherit;
+}
+.App__Item.--editOptions li:hover {
+  cursor: pointer;
+}
 .App__Item li {
   display: flex;
   justify-content: space-between;
