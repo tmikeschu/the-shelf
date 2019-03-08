@@ -1,13 +1,13 @@
 {
-  "main.css": "/the-shelf/static/css/main.956e6e19.chunk.css",
-  "main.js": "/the-shelf/static/js/main.5562fae7.chunk.js",
-  "main.js.map": "/the-shelf/static/js/main.5562fae7.chunk.js.map",
+  "main.css": "/the-shelf/static/css/main.6e0206c7.chunk.css",
+  "main.js": "/the-shelf/static/js/main.9778df80.chunk.js",
+  "main.js.map": "/the-shelf/static/js/main.9778df80.chunk.js.map",
   "runtime~main.js": "/the-shelf/static/js/runtime~main.d8607282.js",
   "runtime~main.js.map": "/the-shelf/static/js/runtime~main.d8607282.js.map",
   "static/js/2.07c19afc.chunk.js": "/the-shelf/static/js/2.07c19afc.chunk.js",
   "static/js/2.07c19afc.chunk.js.map": "/the-shelf/static/js/2.07c19afc.chunk.js.map",
   "index.html": "/the-shelf/index.html",
-  "precache-manifest.8f427428b5e0ce2785ecb96191078f5e.js": "/the-shelf/precache-manifest.8f427428b5e0ce2785ecb96191078f5e.js",
+  "precache-manifest.f3031eed1a5b98a7651796864f3611b6.js": "/the-shelf/precache-manifest.f3031eed1a5b98a7651796864f3611b6.js",
   "service-worker.js": "/the-shelf/service-worker.js",
-  "static/css/main.956e6e19.chunk.css.map": "/the-shelf/static/css/main.956e6e19.chunk.css.map"
+  "static/css/main.6e0206c7.chunk.css.map": "/the-shelf/static/css/main.6e0206c7.chunk.css.map"
 }
