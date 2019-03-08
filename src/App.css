@@ -1,5 +1,12 @@
 * {
   box-sizing: border-box;
+  line-height: 1.5em;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 html {
@@ -32,23 +39,76 @@ body,
 
 .App__Item {
   border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 300ms ease;
+  padding: 1rem;
+  justify-content: center;
+}
+.App__Item li {
+  display: flex;
+  justify-content: space-between;
+}
+.App__Item .--brand::before {
+  content: "Brand: ";
+}
+.App__Item .--style::before {
+  content: "Style: ";
+}
+.App__Item .--size::before {
+  content: "Size: ";
+}
+.App__Item .--upcId::before {
+  content: "UPC ID: ";
+}
+.App__Item.--empty {
+  align-items: center;
 }
 
-.App__Item.--empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: box-shadow 300ms ease;
-}
-.App__Item.--empty:hover {
+.App__Item:hover {
   cursor: pointer;
 }
-.App__Item.--empty:hover,
-.App__Item.--empty:focus {
-  box-shadow: 2px 2px grey;
+.App__Item:hover,
+.App__Item:focus {
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.5);
 }
 
 .App__Item.--empty::after {
   content: "Click to add";
   display: block;
+}
+
+.App__AddItem {
+  width: 400px;
+  height: 600px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.App__AddItem input {
+  width: 100%;
+  border: 2px solid grey;
+  border-radius: 4px;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.Modal {
+  position: absolute;
+  z-index: 10;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  margin: -1rem;
+}
+
+.Modal__Close {
+  position: ;
 }
