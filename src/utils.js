@@ -15,3 +15,12 @@ export const setFormData = (itemProps, item) => {
     setter(item[prop]);
   });
 };
+
+const sendToEvent = (message, ...args) => (cb = () => {}) => e => {
+  e[message](...args);
+  return cb(e);
+};
+
+export const prevent = sendToEvent("preventDefault");
+
+export const stop = sendToEvent("stopPropagation");

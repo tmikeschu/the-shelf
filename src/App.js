@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import "./App.css";
-import { setFormData, targVal, updateElement, capitalize } from "./utils";
+import {
+  setFormData,
+  targVal,
+  updateElement,
+  capitalize,
+  prevent,
+  stop
+} from "./utils";
 
 const PER_PAGE = 25;
 const EMPTY_PAGE = [...Array(PER_PAGE)];
@@ -50,7 +57,6 @@ const App = () => {
   // event handlers
 
   const addItem = e => {
-    e.preventDefault();
     if (!totalItems.find(({ upcId: existing } = {}) => existing === upcId)) {
       setItems(updateItem(selectedIndex, { brand, style, size, upcId }));
       setSelectedIndex(-1);
@@ -73,14 +79,12 @@ const App = () => {
   };
 
   const handleEdit = i => e => {
-    e.stopPropagation();
     setSelectedIndex(i);
     setFormData(itemProps, items[i]);
     setShowAddItem(!showAddItem);
   };
 
   const handleDelete = i => e => {
-    e.stopPropagation();
     setSelectedIndex(i);
     setShowDeleteWarning(true);
   };
@@ -98,7 +102,6 @@ const App = () => {
   };
 
   const cancelEdit = e => {
-    e.stopPropagation();
     setShowEditOptions(false);
     resetForm();
     setSelectedIndex(-1);
@@ -146,15 +149,15 @@ const App = () => {
           onClick={handleEditClick(i)}
           role="button"
         >
-          <li onClick={handleEdit(i)}>
+          <li onClick={stop(handleEdit(i))}>
             <i className="material-icons">edit</i>
           </li>
-          <li onClick={handleDelete(i)}>
+          <li onClick={stop(handleDelete(i))}>
             <i className="material-icons" style={{ color: "red" }}>
               delete
             </i>
           </li>
-          <li onClick={cancelEdit}>
+          <li onClick={stop(cancelEdit)}>
             <i className="material-icons">close</i>
           </li>
         </ul>
@@ -238,8 +241,8 @@ const App = () => {
             </div>
             <form
               className="App__AddItem"
-              onSubmit={addItem}
-              onClick={e => e.stopPropagation()}
+              onSubmit={prevent(addItem)}
+              onClick={stop()}
             >
               {Object.entries(itemProps).map(
                 ([prop, { val, setter, label }]) => {

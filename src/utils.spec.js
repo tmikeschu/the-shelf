@@ -1,4 +1,11 @@
-import { updateElement, capitalize, targVal, setFormData } from "./utils";
+import {
+  updateElement,
+  capitalize,
+  targVal,
+  setFormData,
+  stop,
+  prevent
+} from "./utils";
 
 describe("updateElement", () => {
   it("takes a list of xs, an index, and a setter function", () => {
@@ -65,5 +72,45 @@ describe("setFormData", () => {
     setFormData(props, item);
     expect(name).toEqual("Harry Potter");
     expect(age).toEqual(22);
+  });
+});
+
+describe("prevent", () => {
+  it("calls preventDefault on an event object and passes the event to a callback", () => {
+    let called = false;
+    let value = "";
+    const event = {
+      preventDefault: () => {
+        called = true;
+      },
+      target: {
+        value: "delegated"
+      }
+    };
+    prevent(e => {
+      value = e.target.value;
+    })(event);
+    expect(called).toBe(true);
+    expect(value).toBe("delegated");
+  });
+});
+
+describe("stop", () => {
+  it("calls stopPropagation on an event object and passes the event to a callback", () => {
+    let called = false;
+    let value = "";
+    const event = {
+      stopPropagation: () => {
+        called = true;
+      },
+      target: {
+        value: "delegated"
+      }
+    };
+    stop(e => {
+      value = e.target.value;
+    })(event);
+    expect(called).toBe(true);
+    expect(value).toBe("delegated");
   });
 });
