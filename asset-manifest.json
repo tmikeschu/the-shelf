@@ -1,13 +1,13 @@
 {
   "main.css": "/the-shelf/static/css/main.6e0206c7.chunk.css",
-  "main.js": "/the-shelf/static/js/main.9778df80.chunk.js",
-  "main.js.map": "/the-shelf/static/js/main.9778df80.chunk.js.map",
+  "main.js": "/the-shelf/static/js/main.6f0a9df0.chunk.js",
+  "main.js.map": "/the-shelf/static/js/main.6f0a9df0.chunk.js.map",
   "runtime~main.js": "/the-shelf/static/js/runtime~main.d8607282.js",
   "runtime~main.js.map": "/the-shelf/static/js/runtime~main.d8607282.js.map",
   "static/js/2.07c19afc.chunk.js": "/the-shelf/static/js/2.07c19afc.chunk.js",
   "static/js/2.07c19afc.chunk.js.map": "/the-shelf/static/js/2.07c19afc.chunk.js.map",
   "index.html": "/the-shelf/index.html",
-  "precache-manifest.f3031eed1a5b98a7651796864f3611b6.js": "/the-shelf/precache-manifest.f3031eed1a5b98a7651796864f3611b6.js",
+  "precache-manifest.ee1b05b25af8d3f0fc5ea6e3d20131d1.js": "/the-shelf/precache-manifest.ee1b05b25af8d3f0fc5ea6e3d20131d1.js",
   "service-worker.js": "/the-shelf/service-worker.js",
   "static/css/main.6e0206c7.chunk.css.map": "/the-shelf/static/css/main.6e0206c7.chunk.css.map"
 }

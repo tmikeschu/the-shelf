@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/the-shelf/static/js/runtime~main.d8607282.js"
   },
   {
-    "revision": "9778df8018365426e0d4",
-    "url": "/the-shelf/static/js/main.9778df80.chunk.js"
+    "revision": "6f0a9df0e21ae2d78c8a",
+    "url": "/the-shelf/static/js/main.6f0a9df0.chunk.js"
   },
   {
     "revision": "07c19afc6cb5aec4e76e",
     "url": "/the-shelf/static/js/2.07c19afc.chunk.js"
   },
   {
-    "revision": "9778df8018365426e0d4",
+    "revision": "6f0a9df0e21ae2d78c8a",
     "url": "/the-shelf/static/css/main.6e0206c7.chunk.css"
   },
   {
-    "revision": "45a07b9bfdd48bf2a952d05f30df4d5b",
+    "revision": "a97cbd4b78be8b51a52d510a797ffc04",
     "url": "/the-shelf/index.html"
   }
 ];
